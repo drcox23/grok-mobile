@@ -5,6 +5,7 @@ import Colors from '../constants/Colors';
 
 export default class TabBarIcon extends React.Component {
   render() {
+    console.log("can i see this", this.props)
     return (
       <Icon.Ionicons
         name={this.props.name}
