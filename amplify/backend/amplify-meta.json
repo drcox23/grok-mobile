@@ -1,0 +1,35 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "grokmobile-20181129201430-authRole",
+			"UnauthRoleArn": "arn:aws:iam::104234874083:role/grokmobile-20181129201430-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::104234874083:role/grokmobile-20181129201430-authRole",
+			"Region": "us-west-2",
+			"DeploymentBucketName": "grokmobile-20181129201430-deployment",
+			"UnauthRoleName": "grokmobile-20181129201430-unauthRole",
+			"StackName": "grokmobile-20181129201430",
+			"StackId": "arn:aws:cloudformation:us-west-2:104234874083:stack/grokmobile-20181129201430/33426c00-f467-11e8-849b-500c32c86c29"
+		}
+	},
+	"auth": {
+		"cognito15eca626": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/grokmobile-20181129201430-deployment/amplify-cfn-templates/auth/cognito15eca626-cloudformation-template.yml",
+				"logicalId": "authcognito15eca626"
+			},
+			"lastPushTimeStamp": "2018-11-30T06:18:21.045Z",
+			"output": {
+				"AppClientSecret": "1ggjvo32jd2uqp00apobvqkpp2ggc4t2iri9bfi9jg2o38rekheu",
+				"UserPoolId": "us-west-2_y4Nh2Bq2V",
+				"AppClientIDWeb": "47jjnqt5san9isfcmqddl32ajj",
+				"AppClientID": "53enjscjoq8lcjhc4clmnv5vq5",
+				"IdentityPoolId": "us-west-2:8d5b8897-5d1e-4d56-b317-21eb73b4bdf6",
+				"IdentityPoolName": "cognito15eca626_identitypool_15eca626",
+				"UserPoolName": "cognito15eca626_userpool_15eca626"
+			},
+			"lastPushDirHash": "LbYPUawHl90IklZhmnOVBCpfMhM="
+		}
+	}
+}
