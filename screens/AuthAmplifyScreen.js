@@ -1,7 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, Modal } from 'react-native';
+import { StyleSheet, Text, View, Modal, AsyncStorage } from 'react-native';
 import { Input, Button, ButtonGroup} from 'react-native-elements';
 import { Auth } from 'aws-amplify';
+
+const session = Auth.currentSession()
+  .then( data => {
+    console.log("auth current session", data)
+  })
+  .catch( err => {
+    console.log("current session error", err)
+  })
+
 
 export default class Authentication extends React.Component {
 
@@ -13,10 +22,22 @@ export default class Authentication extends React.Component {
       confirmPassword: '',
       confirmationCode: '',
       modalVisible: false,
+      isAuthenticated: false,
     }
 
     this.buttons = ['Sign Up', 'Sign In']
   }
+
+    componentWillMount(){
+      console.log("what the JWT", session)
+
+      const value = AsyncStorage.getItem('@Mylogin:key');
+        if (value !== null){
+          this.setState({
+          isAuthenticated: true
+          }) 
+        } 
+      }
   
     updateIndex = () => {
       // If selectedIndex was 0, make it 1.  If it was 1, make it 0
@@ -30,7 +51,7 @@ export default class Authentication extends React.Component {
       Auth.signIn(email, password)
         // If we are successful, navigate to Home screen
         .then(user => {
-          console.log("sign-in successful")
+          console.log("sign-in successful", session)
           this.props.navigation.navigate('Home')
         })
         // On failure, display error in console

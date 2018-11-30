@@ -11,7 +11,7 @@ import {
 import { WebBrowser } from 'expo';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { Auth } from 'aws-amplify'
+import { Auth } from 'aws-amplify';
 
 import { MonoText } from '../components/StyledText';
 
@@ -21,8 +21,9 @@ export default class HomeScreen extends React.Component {
   };
 
   handleSignOut = () => {
+    console.log("what the JWT", this.auth)
     Auth.signOut()
-      .then(() => this.props.navigation.navigate('Authentication'))
+      .then(() => this.props.navigation.navigate('Authenticate'))
       .catch(err => console.log(err));
     }
 
