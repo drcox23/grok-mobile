@@ -2,6 +2,11 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+import Amplify from 'aws-amplify';
+import aws_exports from './aws-exports';
+
+Amplify.configure(aws_exports);
+
 
 export default class App extends React.Component {
   state = {

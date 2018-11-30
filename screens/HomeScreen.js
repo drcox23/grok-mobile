@@ -9,6 +9,9 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { Auth } from 'aws-amplify'
 
 import { MonoText } from '../components/StyledText';
 
@@ -16,6 +19,12 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  handleSignOut = () => {
+    Auth.signOut()
+      .then(() => this.props.navigation.navigate('Authentication'))
+      .catch(err => console.log(err));
+    }
 
   render() {
     
@@ -55,6 +64,10 @@ export default class HomeScreen extends React.Component {
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
+          <Button
+          title="Sign Out"
+          onPress={this.handleSignOut}
+          />
           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
 
           <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
