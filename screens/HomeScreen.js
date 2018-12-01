@@ -20,10 +20,27 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  currentSession = () => {
+    Auth.currentSession()
+      .then( data => {
+        console.log("get session data", data)
+      })
+      .catch( err => {
+        console.log("get session err" , err)
+      })
+  }
+
+  componentDidMount =() => {
+    console.log(this.currentSession())
+  }
+
+
   handleSignOut = () => {
-    console.log("what the JWT", this.auth)
+    console.log("sign out button activated")
     Auth.signOut()
-      .then(() => this.props.navigation.navigate('Authenticate'))
+      .then(() => {
+        this.props.navigation.navigate('Authenticate')
+      })
       .catch(err => console.log(err));
     }
 

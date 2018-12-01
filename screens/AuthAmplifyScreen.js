@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Modal, AsyncStorage } from 'react-native';
 import { Input, Button, ButtonGroup} from 'react-native-elements';
 import { Auth } from 'aws-amplify';
+// import jwt from 'jsonwebtoken';
+// import jwtToPem from 'jwk-to-pem'
 
 const session = Auth.currentSession()
   .then( data => {
@@ -50,6 +52,9 @@ export default class Authentication extends React.Component {
       const { email, password } = this.state;
       Auth.signIn(email, password)
         // If we are successful, navigate to Home screen
+        .then( data => {
+          console.log("sign-in data", data)
+        })
         .then(user => {
           console.log("sign-in successful", session)
           this.props.navigation.navigate('Home')
@@ -71,6 +76,9 @@ export default class Authentication extends React.Component {
           username: email,
           password,
           attributes: { email },
+          })
+          .then( data => {
+            console.log("sign up data", data)
           })
           // On success, show Confirmation Code Modal
           .then(() => this.setState({ modalVisible: true }))
