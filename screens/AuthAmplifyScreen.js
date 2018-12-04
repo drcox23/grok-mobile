@@ -2,17 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, Modal, AsyncStorage } from 'react-native';
 import { Input, Button, ButtonGroup} from 'react-native-elements';
 import { Auth } from 'aws-amplify';
+import { MemoryStorage } from '@aws-amplify/core';
+import { withAuthenticator } from 'aws-amplify-react-native'
 // import jwt from 'jsonwebtoken';
 // import jwtToPem from 'jwk-to-pem'
 
-const session = Auth.currentSession()
-  .then( data => {
-    console.log("auth current session", data)
-  })
-  .catch( err => {
-    console.log("current session error", err)
-  })
-
+// let authCheck = Auth.currentAuthenticatedUser()
+  
 
 export default class Authentication extends React.Component {
 
@@ -27,19 +23,49 @@ export default class Authentication extends React.Component {
       isAuthenticated: false,
     }
 
+
+
     this.buttons = ['Sign Up', 'Sign In']
+
+    let poolData = {
+      UserPoolId: 'us-west-2_y4Nh2Bq2V',
+      ClientId: '47jjnqt5san9isfcmqddl32ajj'
+    }
   }
 
-    componentWillMount(){
-      console.log("what the JWT", session)
+    componentDidMount(){
+      // console.log("PROPS", AsyncStorage.getAllKeys().then( data => {console.log(data)}))
 
-      const value = AsyncStorage.getItem('@Mylogin:key');
-        if (value !== null){
-          this.setState({
-          isAuthenticated: true
-          }) 
-        } 
+      // if (AsyncStorage.getAllKeys().then( data => {return data})){
+      //   this.props.navigation.navigate('Auth')
+      // } else {
+      //   this.props.navigation.navigate('Home');
+      // }
+      console.log("did it mount")
+
       }
+
+      // setSession = () => {
+      //   Auth.currentSession()
+      //     .then( data => {
+      //       // console.log("get session data", data)
+      //       let id = data.getIdToken().payload.sub
+      //       // user_id.push(id);
+      //       console.log("USER ID??", id)
+      //       AsyncStorage.setItem(id, "key set")
+      //     })
+      //     .then(result => {
+      //       console.log("can i see ASYNC??", result)
+      //       if (result !== null){
+      //         this.setState({
+      //           isAuthenticated: true
+      //         })
+      //       }
+      //     })
+      //     .catch( err => {
+      //       console.log("get session err" , err)
+      //     })
+      // }
   
     updateIndex = () => {
       // If selectedIndex was 0, make it 1.  If it was 1, make it 0
@@ -48,15 +74,40 @@ export default class Authentication extends React.Component {
     }
 
   
-    handleSignIn = () => {
+    handleSignIn = async (e) => {
+
+
+      e.preventDefault();
+
       const { email, password } = this.state;
-      Auth.signIn(email, password)
+      await Auth.signIn(email, password)
         // If we are successful, navigate to Home screen
         .then( data => {
           console.log("sign-in data", data)
+          // const key = data.signInUserSession.idToken.payload.sub
+          // const USER_KEY = JSON.stringify(key)
+          // console.log("KEEEYYY", USER_KEY)
+          // const saveUserId = async USER_KEY => {
+          //   try {
+          //     await AsyncStorage.setItem('userId', USER_KEY);
+          //   } catch (error) {
+          //     // Error retrieving data
+          //     console.log(error.message);
+          //   }
+          // }
+          // saveUserId(USER_KEY);
+          // console.log("HUH", AsyncStorage.getItem('user_id'));
+          // this.setSession()
+          
+          console.log("are we authed", this.isAuthenticated)
+
+          // isAuthenticated = true;
+          // Auth.currentSession().then((session) => {
+          //   console.log("SESSION", session)
+          // })
         })
         .then(user => {
-          console.log("sign-in successful", session)
+          // console.log("sign-in successful", session)
           this.props.navigation.navigate('Home')
         })
         // On failure, display error in console

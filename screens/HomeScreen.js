@@ -11,6 +11,7 @@ import {
 import { WebBrowser } from 'expo';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+
 import { Auth } from 'aws-amplify';
 
 import { MonoText } from '../components/StyledText';
@@ -20,28 +21,31 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
-  currentSession = () => {
-    Auth.currentSession()
-      .then( data => {
-        console.log("get session data", data)
-      })
-      .catch( err => {
-        console.log("get session err" , err)
-      })
-  }
+  // currentSession = () => {
+  //   Auth.currentSession()
+  //     .then( data => {
+  //       console.log("get session data", data)
+  //     })
+  //     .catch( err => {
+  //       console.log("get session error" , err)
+  //     })
+  // }
 
   componentDidMount =() => {
-    console.log(this.currentSession())
+    // console.log("MO SESSION", Auth.currentSession().then(data =>{console.log(data)}))
   }
 
 
   handleSignOut = () => {
     console.log("sign out button activated")
     Auth.signOut()
-      .then(() => {
-        this.props.navigation.navigate('Authenticate')
+      .then((data) => {
+        console.log("back to auth", data)
+        this.props.navigation.navigate('Auth')
       })
-      .catch(err => console.log(err));
+      .catch( err => {
+        console.log(err);
+      })
     }
 
   render() {

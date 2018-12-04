@@ -4,11 +4,11 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
+import { withAuthenticator } from 'aws-amplify-react-native';
 
 Amplify.configure(aws_exports);
 
-
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
@@ -59,9 +59,13 @@ export default class App extends React.Component {
   };
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
 });
+
+
+export default withAuthenticator(App)
