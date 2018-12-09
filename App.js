@@ -1,17 +1,47 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
+import { connect } from 'react-redux'
+
 import AppNavigator from './navigation/AppNavigator';
-import Amplify from 'aws-amplify';
+import Tabs from './screens/Auth/Tabs.js'
+import Amplify, { Auth } from 'aws-amplify';
 import aws_exports from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react-native';
+
 
 Amplify.configure(aws_exports);
 
 class App extends React.Component {
   state = {
     isLoadingComplete: false,
+    user: {},
+    isLoaded: true,
   };
+
+  async componentDidMount () {
+    StatusBar.setHidden(true)
+    const user = await Auth.currentAuthenticatedUser()
+      .then( data => {
+        console.log("AUTH data", data)
+        this.setState({ user })
+      })
+      .catch(err => {
+        console.log("component did mount error", err)
+        this.setState({ user: {} })
+    })
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    const user = await Auth.currentAuthenticatedUser()
+      .then (data => {
+        console.log("nextProps AUTH data", data);
+        this.setState({ user })
+      })
+      .catch ( err => {
+        console.log("nextProps Err", err);
+        this.setState({ user: {} })
+      })
+  }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -23,12 +53,22 @@ class App extends React.Component {
         />
       );
     } else {
+      if (this.state.isLoaded) return null
+      let loggedIn = false
+      if (this.state.user.username){
+        loggedIn = true
+      }
+      if (loggedIn) { 
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <AppNavigator />
         </View>
       );
+      }
+      return (
+        <Tabs />
+      )
     }
   }
 
@@ -67,5 +107,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = state => ({
+  auth: state.auth
+})
 
-export default withAuthenticator(App)
+export default (App)

@@ -27,10 +27,7 @@ export default class Authentication extends React.Component {
 
     this.buttons = ['Sign Up', 'Sign In']
 
-    let poolData = {
-      UserPoolId: 'us-west-2_y4Nh2Bq2V',
-      ClientId: '47jjnqt5san9isfcmqddl32ajj'
-    }
+    
   }
 
     componentDidMount(){
